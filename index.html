@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Shipping Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+    <script src="shipping.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper teal lighten-1">
+            <a href="#" class="brand-logo center">Shipping Calculator</a>
+        </div>
+    </nav>
+    <div id="container">
+        <div class="wrap">
+            <div class="mat-div">
+                <label for="text" class="mat-label"></label>
+                <input type="text" class="mat-input" placeholder="Weight of Package" id="text">
+            </div>
+            <div id="radioDiv">
+                <input class="" name="radio" type="radio" value="5" id="5day"/> <label for="5day">5 Days</label>
+                <input class="" name="radio" type="radio" value="3" id="3day"/> <label for="3day">3 Days</label>
+                <input class="" name="radio" type="radio" value="2" id="2day"/> <label for="2day">2 Days</label>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col s12 offset-s1 center-align">
+                    <button class="btn waves-effect waves-light center-align" id="button" type="submit" name="action">Submit
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+
+            </div>
+
+        <div id="display-area">
+            <ul class="collection with-header">
+               <li class="collection-header center-align">Weight
+                    <ul class="collection">
+                        <li class="collection-item left-align" id="oz">Oz</li>
+                        <li class="collection-item left-align" id="lbs">Lbs</li>
+                    </ul>
+               </li>
+                <li class="collection-header center-align" id="shipping">Shipping
+                    <ul class="collection">
+                        <li class="collection-item left-align" id="type">Type: </li>
+                        <li class="collection-item left-align" id="departing">Departing: </li>
+                        <li class="collection-item left-align" id="arriving">Arriving: </li>
+                    </ul>
+                </li>
+                <li class="collection-header center-align" id="total">Total
+                    <ul class="collection">
+                        <li class="collection-item left-align" id="cost">Cost: </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </div>
+</body>
+</html>

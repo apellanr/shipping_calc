@@ -1,0 +1,42 @@
+body {
+    background: url(postage.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#container {
+    background-color: white;
+    opacity: 1.1;
+    height: 65vh;
+    width: 40vw;
+    margin: 50px auto 0 auto !important;
+    border-radius: 1em;
+    color: black;
+}
+
+input {
+    text-align: center;
+}
+
+#display-area {
+    height: 30vh;
+    margin-top: 30px;
+}
+
+#radioDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#radioDiv input {
+    margin: auto;
+}
+
+#button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
