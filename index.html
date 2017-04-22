@@ -16,21 +16,21 @@
 <body>
     <!--Navigation Bar-->
     <nav>
-        <div class="nav-wrapper teal lighten-1">
+        <div class="nav-wrapper teal lighten-1 z-depth-5">
             <a href="#" class="brand-logo center">Shipping Calculator</a>
         </div>
     </nav>
     <!--Package Input-->
-    <div id="container">
+    <div id="container" class="z-depth-4">
         <div class="wrap">
             <div class="mat-div">
-                <label for="text" class="mat-label"></label>
-                <input type="text" class="mat-input" placeholder="Weight of Package" id="text">
+                <label for="weightInput" class="mat-label"></label>
+                <input type="text" class="mat-input" placeholder="Weight of Package" id="weightInput">
             </div>
             <div id="radioDiv">
-                <input class="" name="radio" type="radio" value="5" id="5day"/><label for="5day">5 Days</label>
-                <input class="" name="radio" type="radio" value="3" id="3day"/><label for="3day">3 Days</label>
-                <input class="" name="radio" type="radio" value="2" id="2day"/><label for="2day">2 Days</label>
+                <input class="radio" name="days" type="radio" value="5" id="5day" checked/><label for="5day">5 Days</label>
+                <input class="radio" name="days" type="radio" value="3" id="3day"/><label for="3day">3 Days</label>
+                <input class="radio" name="days" type="radio" value="2" id="2day"/><label for="2day">2 Days</label>
             </div>
             <br>
             <div class="row">
