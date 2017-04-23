@@ -1,8 +1,5 @@
-/*
-question about keypress - want to eliminate leading and trailing zeros
-unncessary decimal issue with multiple keypress - should i set up multiple fxns after validate keypress?
-
- */
+/* question about keypress - want to eliminate leading and trailing zeros
+unncessary decimal issue with multiple keypress - should i set up multiple fxns after validate keypress? */
 
 $(document).ready(createNewShipment);
 
@@ -36,8 +33,6 @@ function ShipmentCalculation() {
     };
 
     this.handleKeypress = function(value) {
-
-
         this.validateKeypress();
         this.checkDecimals();
         this.truncateZeros();
@@ -65,38 +60,42 @@ function ShipmentCalculation() {
         console.log('shipping type changed to', this.shippingTime);
     };
 
+    // **** function for date info **** //
+    this.dateInformation = function() {
+        let today = new Date(); // should i set this up as a global variable or a local variable within dateInfo function?
+        let daysInWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        let calenderMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        let dd = today.getDate(); // returns dat of the month (1 - 31)
+        let mm = today.getMonth() + 1; // January is 0; returns the months (0 - 11)
+        let yyyy = today.getFullYear(); // returns year
+    };
+
     // **** Calculate Shipping **** //
     this.calculateShipping = function(weight, time) {
-        this.ounces = weight * 16;
-        this.cost = 0;
+        let weightInOunces = weight * 16;
+        let cost;
 
-        if(this.ounces < 20) {
-            this.cost = this.ounces * .02;
-        } else if (this.ounces > 32) {
-            this.cost = this.ounces * .20;
+        if(weightInOunces < 20) {
+            cost = weightInOunces * .02;
+        } else if (weightInOunces > 32) {
+            cost = weightInOunces * .20;
         } else {
-            this.cost = this.ounces * .10;
+            cost = weightInOunces * .10;
         }
 
         switch(time) {
-            case 5:
-                this.cost *= 1;
+            case 2:
+                cost *= 2;
                 break;
             case 3:
-                this.cost *= 1.5;
+                cost *= 1.5;
                 break;
-            case 2:
-                this.cost *= 2;
+            case 5:
+            default:
+                cost *= 1;
                 break;
         }
-
-
-        this.shipmentObj = { // return object with properties and values:
-            "arrival_date": this.deliveryTime, // 1) arrival date (string)
-            "weight": this.ounces, // 2) weight (number) - the weight (in ounces) of the package
-            "cost": this.costOfPackage // 3) cost (number) - the cost (in dollars) of shipping
-        };
-        return this.shipmentObj;
+        return cost.toFixed(2);
     };
 
     // **** Display Shipping **** //
@@ -104,3 +103,10 @@ function ShipmentCalculation() {
 
     };
 }
+
+
+// this.shipmentObj = { // return object with properties and values:
+//     "arrival_date": this.deliveryTime, // 1) arrival date (string)
+//     "weight": , // 2) weight (number) - the weight (in ounces) of the package
+//     // 3) cost (number) - the cost (in dollars) of shipping
+// };
