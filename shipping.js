@@ -19,7 +19,7 @@ function createNewShipment() {
 function ShipmentCalculation() {
     this.self = this;
     this.shippingTime = 5;
-    this.keyInput = [];
+    this.keyInput = [""];
     this.decimal = false;
     this.init = function() {
         this.textInput = $('#weightInput');
@@ -38,7 +38,7 @@ function ShipmentCalculation() {
         this.submit.click(this.displayShipping.bind(this));
     };
 
-    this.handleKeypress = function(value) {
+    this.handleKeypress = function() {
         this.validateKeypress();
         this.checkDecimals();
         this.truncateZeros();
@@ -53,8 +53,22 @@ function ShipmentCalculation() {
         return (event.which === 46 || event.which > 47 && event.which < 58);
     };
 
-    this.checkDecimals = function() {
-
+    this.checkDecimals = function(event) {
+        // if(event.which === ".") {
+        //     if(this.keyInput[this.keyInput.length - 1] === 1) {
+        //
+        //     }
+        // }
+        // if(this.decimal === false) {
+        //     if(isNaN(this.keyInput[this.keyInput.length - 1])) {
+        //         this.keyInput.push(".");
+        //         this.decimal = true;
+        //     } else {
+        //         this.keyInput[this.keyInput.length - 1] += (".");
+        //         this.decimal = true;
+        //     }
+        //     this.displayShipping();
+        // }
     };
 
     this.truncateZeros = function() {
@@ -68,37 +82,53 @@ function ShipmentCalculation() {
     };
 
     // **** function for date info **** //
-    this.dateInformation = function() {
-        // note: 86400000 milliseconds in a day
+    this.dateInformation = function(time) {
         let presentDay = new Date(); // should i set this up as a global variable or a local variable within dateInfo function?
+
+        /*
+         if current day is Sunday, add one day to the shipping (cannot send on Sunday)
+         if it would arrive on Sunday, add one day to shipping
+         i didn't think to pass in another new Date() into new Date() method
+         i had a few peers walk me through this logic
+         note: 86400000 milliseconds in a day
+         */
+        if(presentDay === 0) {
+            presentDay = new Date(new Date().getTime() + (86400000));
+        }
+        if(presentDay !== 0) {
+            presentDay = new Date(new Date().getTime() + (time * 86400000));
+        }
+
+        // created arrays for days of the week and calender months in order to retrieve values for indexes
+        // note: originally I tried to add +1 to the getMonth() method but it was actually outputting a month behind
+        // need to advice on why that was happening - 4/24/16
         let daysInWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         let calenderMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         let dayOfTheWeek = daysInWeek[presentDay.getDay()]; // returns the day of the week (0 - 6)
-        let month = calenderMonths[presentDay.getMonth() + 1]; // January is 0; returns the months (0 - 11)
+        let month = calenderMonths[presentDay.getMonth()]; // January is 0; returns the months (0 - 11)
         let dayOfTheMonth = presentDay.getDate(); // returns day of the month (1 - 31)
         let year = presentDay.getFullYear(); // returns year
         let fullDate = (dayOfTheWeek + ", " + month + " " + dayOfTheMonth + ", " + year);
-        console.log(fullDate);
         return fullDate;
     };
 
     // **** Calculate Shipping **** //
     this.calculateShipping = function(weight, time) {
         let cost;
-        shipmentObj = {
+        let shipmentObject = {
             "weightInPounds": weight + " pounds",
             "time": "Type: " + time + " day"
         };
         // adding to shipmentObj by dot notation
         let departingTime = this.dateInformation(0);
-        shipmentObj.departing = "Departing: " + departingTime;
+        shipmentObject.departing = "Departing: " + departingTime;
         let arrivingTime  = this.dateInformation(time);
-        shipmentObj.arrival = "Arriving: " + arrivingTime;
+        shipmentObject.arrival = "Arriving: " + arrivingTime;
 
         let weightInOunces = weight * 16;
-        shipmentObj.weightInOunces = weightInOunces + " ounces";
+        shipmentObject.weightInOunces = weightInOunces + " ounces";
 
-        if(weightInOunces < 20) {
+        if (weightInOunces < 20) {
             cost = weightInOunces * .02;
         } else if (weightInOunces > 32) {
             cost = weightInOunces * .20;
@@ -119,13 +149,16 @@ function ShipmentCalculation() {
                 break;
         }
 
-        shipmentObj.cost = "Cost: $" + cost.toFixed(2); // restricts 2 numbers following the decimal point
-        return shipmentObj;
+        shipmentObject.cost = "Cost: $" + cost.toFixed(2); // restricts 2 numbers following the decimal point
+        return shipmentObject;
     };
 
     // **** Display Shipping **** //
     this.displayShipping = function() {
         let weight = $("#weightInput").val();
+        if(weight === "") {
+            return;
+        }
         this.changeShippingType();
         let calculatedData = this.calculateShipping(weight, this.shippingTime);
         $("#oz").text(calculatedData.weightInOunces);
@@ -134,5 +167,7 @@ function ShipmentCalculation() {
         $("#departing").text(calculatedData.departing);
         $("#arriving").text(calculatedData.arrival);
         $("#cost").text(calculatedData.cost);
+        $("#weightInput").val('');
     };
+
 }
