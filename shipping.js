@@ -1,5 +1,11 @@
 /* question about keypress - want to eliminate leading and trailing zeros
 unncessary decimal issue with multiple keypress - should i set up multiple fxns after validate keypress? */
+/*
+FOR REFERENCE
+one_day = 1000 * 60 * 60 * 24; one_hour = 1000 * 60 * 60; one_minute = 1000 + 60; one_second = 1000
+- variables used to multiply to get days/hours/minutes/seconds/out of the amount of milliseconds
+- (1 second = 1000 milliseconds)
+ */
 
 $(document).ready(createNewShipment);
 
@@ -29,7 +35,7 @@ function ShipmentCalculation() {
         // add a click handler to the radio buttons (all of them) that calls "change_shipping_type"
         this.radioButton.click(this.changeShippingType);
         // add a click handler to the button that calls "display_shipping"
-        this.submit.click(this.displayShipping);
+        this.submit.click(this.displayShipping.bind(this));
     };
 
     this.handleKeypress = function(value) {
@@ -62,18 +68,34 @@ function ShipmentCalculation() {
 
     // **** function for date info **** //
     this.dateInformation = function() {
-        let today = new Date(); // should i set this up as a global variable or a local variable within dateInfo function?
+        // note: 86400000 milliseconds in a day
+        let presentDay = new Date(); // should i set this up as a global variable or a local variable within dateInfo function?
         let daysInWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         let calenderMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        let dd = today.getDate(); // returns dat of the month (1 - 31)
-        let mm = today.getMonth() + 1; // January is 0; returns the months (0 - 11)
-        let yyyy = today.getFullYear(); // returns year
+        let dayOfTheWeek = daysInWeek[presentDay.getDay()]; // returns the day of the week (0 - 6)
+        let month = calenderMonths[presentDay.getMonth() + 1]; // January is 0; returns the months (0 - 11)
+        let dayOfTheMonth = presentDay.getDate(); // returns day of the month (1 - 31)
+        let year = presentDay.getFullYear(); // returns year
+        let fullDate = (dayOfTheWeek + ", " + month + " " + dayOfTheMonth + ", " + year);
+        console.log(fullDate);
+        return fullDate;
     };
 
     // **** Calculate Shipping **** //
     this.calculateShipping = function(weight, time) {
-        let weightInOunces = weight * 16;
         let cost;
+        shipmentObj = {
+            "weightInPounds": weight + " pounds",
+            "time": "Type: " + time + " day"
+        };
+        // adding to shipmentObj by dot notation
+        let departingTime = this.dateInformation(0);
+        shipmentObj.departing = "Departing: " + departingTime;
+        let arrivingTime  = this.dateInformation(time);
+        shipmentObj.arrival = "Arriving: " + arrivingTime;
+
+        let weightInOunces = weight * 16;
+        shipmentObj.weightInOunces = weightInOunces + " ounces";
 
         if(weightInOunces < 20) {
             cost = weightInOunces * .02;
@@ -95,18 +117,21 @@ function ShipmentCalculation() {
                 cost *= 1;
                 break;
         }
-        return cost.toFixed(2);
+
+        shipmentObj.cost = "Cost: $" + cost.toFixed(2); // restricts 2 numbers following the decimal point
+        return shipmentObj;
     };
 
     // **** Display Shipping **** //
     this.displayShipping = function() {
-
+        let weight = $("#weightInput").val();
+        this.changeShippingType();
+        let calculatedData = this.calculateShipping(weight, this.shippingTime);
+        $("#oz").text(calculatedData.weightInOunces);
+        $("#lbs").text(calculatedData.weightInPounds);
+        $("#type").text(calculatedData.time);
+        $("#departing").text(calculatedData.departing);
+        $("#arriving").text(calculatedData.arrival);
+        $("#cost").text(calculatedData.cost);
     };
 }
-
-
-// this.shipmentObj = { // return object with properties and values:
-//     "arrival_date": this.deliveryTime, // 1) arrival date (string)
-//     "weight": , // 2) weight (number) - the weight (in ounces) of the package
-//     // 3) cost (number) - the cost (in dollars) of shipping
-// };
