@@ -1,10 +1,10 @@
 /* question about keypress - want to eliminate leading and trailing zeros
-unncessary decimal issue with multiple keypress - should i set up multiple fxns after validate keypress? */
+ unncessary decimal issue with multiple keypress - should i set up multiple fxns after validate keypress? */
 /*
-FOR REFERENCE
-one_day = 1000 * 60 * 60 * 24; one_hour = 1000 * 60 * 60; one_minute = 1000 + 60; one_second = 1000
-- variables used to multiply to get days/hours/minutes/seconds/out of the amount of milliseconds
-- (1 second = 1000 milliseconds)
+ FOR REFERENCE
+ one_day = 1000 * 60 * 60 * 24; one_hour = 1000 * 60 * 60; one_minute = 1000 + 60; one_second = 1000
+ - variables used to multiply to get days/hours/minutes/seconds/out of the amount of milliseconds
+ - (1 second = 1000 milliseconds)
  */
 
 $(document).ready(createNewShipment);
@@ -47,7 +47,8 @@ function ShipmentCalculation() {
     // **** Keypress Validation **** //
     this.validateKeypress = function(event) {
         if(event.keyCode === 13) { //enables users to press the enter to submit to display shipment calc
-            this.displayShipping(); // calls display shipping function once enter pressed
+            $("#submitButton").click(); // calls display shipping function once enter pressed
+            // above line wasn't work with just this.submit.click(); need to ask why
         }
         return (event.which === 46 || event.which > 47 && event.which < 58);
     };
