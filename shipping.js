@@ -38,7 +38,9 @@ function ShipmentCalculation() {
         this.submit.click(this.displayShipping.bind(this));
     };
 
-    this.handleKeypress = function() {
+    this.handleKeypress = function(evt) {
+        let charCode = evt.charCode;
+        console.log(charCode);
         this.validateKeypress();
         this.checkDecimals();
         this.truncateZeros();
@@ -50,15 +52,13 @@ function ShipmentCalculation() {
             $("#submitButton").click(); // calls display shipping function once enter pressed
             // above line wasn't work with just this.submit.click(); need to ask why
         }
+        if()
         return (event.which === 46 || event.which > 47 && event.which < 58);
-    };
+    }.bind(this);
 
-    this.checkDecimals = function(event) {
-        // if(event.which === ".") {
-        //     if(this.keyInput[this.keyInput.length - 1] === 1) {
-        //
-        //     }
-        // }
+    this.checkDecimals = function(evt) {
+
+
         // if(this.decimal === false) {
         //     if(isNaN(this.keyInput[this.keyInput.length - 1])) {
         //         this.keyInput.push(".");
