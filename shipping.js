@@ -19,7 +19,7 @@ function createNewShipment() {
 function ShipmentCalculation() {
     this.self = this;
     this.shippingTime = 5;
-    this.keyInput = [""];
+    this.keyInput = [''];
     this.decimal = false;
     this.init = function() {
         this.textInput = $('#weightInput');
@@ -51,24 +51,16 @@ function ShipmentCalculation() {
         if(event.keyCode === 13) { //enables users to press the enter to submit to display shipment calc
             $("#submitButton").click(); // calls display shipping function once enter pressed
             // above line wasn't work with just this.submit.click(); need to ask why
+        } else if(event.keyCode === 46 && !this.decimal) {
+            this.decimal = true;
+            return true;
         }
-        if()
-        return (event.which === 46 || event.which > 47 && event.which < 58);
+        this.keyInput.push(String.fromCharCode(event.keyCode));
+        return event.keyCode === 46 || event.which > 47 && event.which < 58;
     }.bind(this);
 
-    this.checkDecimals = function(evt) {
+    this.checkDecimals = function() {
 
-
-        // if(this.decimal === false) {
-        //     if(isNaN(this.keyInput[this.keyInput.length - 1])) {
-        //         this.keyInput.push(".");
-        //         this.decimal = true;
-        //     } else {
-        //         this.keyInput[this.keyInput.length - 1] += (".");
-        //         this.decimal = true;
-        //     }
-        //     this.displayShipping();
-        // }
     };
 
     this.truncateZeros = function() {
@@ -84,7 +76,6 @@ function ShipmentCalculation() {
     // **** function for date info **** //
     this.dateInformation = function(time) {
         let presentDay = new Date(); // should i set this up as a global variable or a local variable within dateInfo function?
-
         /*
          if current day is Sunday, add one day to the shipping (cannot send on Sunday)
          if it would arrive on Sunday, add one day to shipping
@@ -168,6 +159,7 @@ function ShipmentCalculation() {
         $("#arriving").text(calculatedData.arrival);
         $("#cost").text(calculatedData.cost);
         $("#weightInput").val('');
+        this.decimal = false;
     };
 
 }
