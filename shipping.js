@@ -38,9 +38,7 @@ function ShipmentCalculation() {
         this.submit.click(this.displayShipping.bind(this));
     };
 
-    this.handleKeypress = function(evt) {
-        let charCode = evt.charCode;
-        console.log(charCode);
+    this.handleKeypress = function() {
         this.validateKeypress();
         this.checkDecimals();
         this.truncateZeros();
@@ -56,7 +54,7 @@ function ShipmentCalculation() {
             return true;
         }
         this.keyInput.push(String.fromCharCode(event.keyCode));
-        return event.keyCode === 46 || event.which > 47 && event.which < 58;
+        return event.which > 47 && event.which < 58;
     }.bind(this);
 
     this.checkDecimals = function() {
@@ -159,7 +157,6 @@ function ShipmentCalculation() {
         $("#arriving").text(calculatedData.arrival);
         $("#cost").text(calculatedData.cost);
         $("#weightInput").val('');
-        this.decimal = false;
     };
 
 }
